@@ -1,0 +1,28 @@
+import { useState } from "react";
+
+export const useArray = <T extends { id: number }>(defaultValue: T[]) => {
+  const [items, setItems] = useState(defaultValue);
+
+  const pushItem = (item: T) => {
+    setArray((a) => a.concat(item));
+  };
+
+  const updateItem = (updatedItem: T) => {
+    setArray((a) =>
+      a.map((item) => (item.id === updatedItem.id ? updatedItem : item)),
+    );
+  };
+
+  const removeItem = (itemToRemove: T) => {
+    setArray((a) => a.filter(({ id }) => id !== itemToRemove.id));
+  };
+
+  const clearItems = () => {
+    setArray([]);
+  };
+
+  return [
+    items,
+    { setItems, clearItems, pushItem, updateItem, removeItem },
+  ] as const;
+};
