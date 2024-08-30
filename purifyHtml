@@ -1,0 +1,14 @@
+import { sanitize } from 'dompurify';
+
+interface Options {
+  allowedTags?: string[];
+  allowedAttr?: string[];
+}
+
+export const purifyHtml = (inputString: string, { allowedTags, allowedAttr }: Options = {}) => {
+  return sanitize(inputString, {
+    SAFE_FOR_TEMPLATES: true,
+    ...(allowedTags && { ALLOWED_TAGS: allowedTags }),
+    ...(allowedAttr && { ALLOWED_ATTR: allowedAttr }),
+  });
+};
