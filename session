@@ -1,0 +1,36 @@
+class SessionItem {
+  constructor(key: string) {
+    this.key = key;
+    this.value = '';
+  }
+
+  private readonly key: string;
+  private value: string;
+
+  get() {
+    if (this.value) {
+      return this.value;
+    }
+    try {
+      const item = window.sessionStorage.getItem(this.key);
+      this.value = item ? JSON.parse(item) : '';
+      return this.value;
+    } catch (error) {
+      console.error(error);
+      return '';
+    }
+  }
+
+  set(value: unknown) {
+    try {
+      window.sessionStorage.setItem(this.key, JSON.stringify(value));
+    } catch (error) {
+      console.error(error);
+    }
+  }
+}
+
+export const session = {
+  accessId: new SessionItem('accessId'),
+  personToken: new SessionItem('personToken'),
+};
