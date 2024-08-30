@@ -1,0 +1,25 @@
+import { useEffect, useState } from 'react';
+
+export const useScripts = (...urls: Array<string>) => {
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    const scripts = urls.map((url) => {
+      const script = document.createElement('script');
+      script.src = url;
+      script.async = true;
+      document.body.appendChild(script);
+      return script;
+    });
+
+    setTimeout(() => {
+      setMounted(true);
+    });
+
+    return () => {
+      scripts.forEach((script) => document.body.removeChild(script));
+    };
+  }, [urls]);
+
+  return mounted;
+};
