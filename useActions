@@ -1,0 +1,31 @@
+import { useMemo } from 'react';
+import { useDispatch } from 'react-redux';
+import { bindActionCreators } from '@reduxjs/toolkit';
+import { activitiesSlice } from '@/store/slices/activitiesSlice';
+import { drawerSlice } from '@/store/slices/drawerSlice';
+import { messagesSlice } from '@/store/slices/messagesSlice';
+import { postsSlice } from '@/store/slices/postsSlice';
+import { selectedActivitySlice } from '@/store/slices/selectedActivitySlice';
+import { selectedUserSlice } from '@/store/slices/selectedUserSlice';
+import { taskMembersSlice } from '@/store/slices/taskMembersSlice';
+import { topSectionSlice } from '@/store/slices/topSectionSlice';
+import { userSettingsSlice } from '@/store/slices/userSettingsSlice';
+import { userSlice } from '@/store/slices/userSlice';
+
+const rootActions = {
+  ...drawerSlice.actions,
+  ...topSectionSlice.actions,
+  ...messagesSlice.actions,
+  ...userSlice.actions,
+  ...userSettingsSlice.actions,
+  ...selectedActivitySlice.actions,
+  ...selectedUserSlice.actions,
+  ...postsSlice.actions,
+  ...activitiesSlice.actions,
+  ...taskMembersSlice.actions,
+};
+
+export const useActions = () => {
+  const dispatch = useDispatch();
+  return useMemo(() => bindActionCreators(rootActions, dispatch), [dispatch]);
+};
