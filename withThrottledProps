@@ -1,0 +1,24 @@
+import React, { useEffect, useRef, useState } from 'react';
+import { throttle } from 'underscore';
+
+export const withThrottledProps = <P extends object>(
+    Component: React.ComponentType<P>,
+    throttleInterval: number,
+): React.FC<P> => {
+    const WithThrottledProps = (props: P) => {
+        const [throttledProps, setThrottledProps] = useState(props);
+
+        const throttledSetProps = useRef(
+            throttle((newProps: P) => setThrottledProps(newProps), throttleInterval)
+        );
+
+        useEffect(() => {
+            throttledSetProps.current(props);
+        }, [props]);
+
+        return <Component {...throttledProps} />;
+    };
+
+    WithThrottledProps.displayName = `WithThrottledProps(${Component.displayName || Component.name})`;
+    return WithThrottledProps;
+};
